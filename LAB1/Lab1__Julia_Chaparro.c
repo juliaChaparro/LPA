@@ -20,6 +20,7 @@ struct lista_eventos_t{
 };
 
 
+
 bool lista_eventos_adicionar_inicio(evento_t *evento, lista_eventos_t **lista){
     lista_eventos_t *item_novo = malloc(sizeof(lista_eventos_t)); 
     if (item_novo == NULL) return false; 
