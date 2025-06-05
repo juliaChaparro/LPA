@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 
+//Julia Evelyn Chaparro Ferreira  Matricula: 22351229
+
 typedef struct {
     uint8_t daddr[6]; // Endereco MAC de destino
     uint8_t saddr[6]; // Endereco MAC de origem (source)
@@ -53,14 +55,24 @@ int main(int argc, char *argv[] ){
         fread(mac, sizeof(ethernet_hdr_t), 1, arquivo_aberto);
         printf("Lendo Ethernet ..\n");
 
-        printf("--> MAC de Origem: ");
+        printf("    --> MAC de Origem: ");
         for(int i = 0; i<6;i++){
-            printf("%02x ", mac->saddr[i]);
+            if(i==5){
+                printf("%02x ", mac->saddr[i]);
+            }
+            else{
+                printf("%02x:", mac->saddr[i]);
+            }
         }
         printf("\n");
-        printf("--> MAC de Destino: ");
+        printf("    --> MAC de Destino: ");
         for(int j = 0; j<6;j++){
-            printf("%02x ",mac->daddr[j]);
+            if(j == 5 ){
+                printf("%02x ",mac->daddr[j]);
+            }else{
+                printf("%02x:",mac->daddr[j]);
+            }
+            
         }
         printf("\n");
 
@@ -70,20 +82,30 @@ int main(int argc, char *argv[] ){
 
         int tamando_Cabesalho_ip = ip->hdr_len * 4;
 
-        printf("--> Versão do IP: %d\n", ip->version); 
-        printf("--> Tamanho do cabeçalho: %d bytes\n", tamando_Cabesalho_ip);
-        printf("--> Tamanho do pacote: %d bytes\n", ntohs(ip->tot_len));
+        printf("    --> Versão do IP: %d\n", ip->version); 
+        printf("    --> Tamanho do cabeçalho: %d bytes\n", tamando_Cabesalho_ip);
+        printf("    --> Tamanho do pacote: %d bytes\n", ntohs(ip->tot_len));
 
-        printf("--> Endereço IP de Origem: ");
+        printf("    --> Endereço IP de Origem: ");
         for(int k=0;k<4;k++){
-            printf("%u ", ip->saddr[k]);
+            if(k==3){
+                printf("%u ", ip->saddr[k]);
+            }
+            else{
+                printf("%u.", ip->saddr[k]);
+            }
         }
 
         printf("\n");
 
-        printf("--> Endereço IP de Destino: ");
+        printf("    --> Endereço IP de Destino: ");
         for(int k=0;k<4;k++){
-            printf("%u ", ip->daddr[k]);
+            if(k==3){
+                printf("%u ", ip->daddr[k]);
+            }
+            else{
+                printf("%u.", ip->daddr[k]);
+            }
         }
         printf("\n");
 
@@ -93,11 +115,11 @@ int main(int argc, char *argv[] ){
         fread(tcp, sizeof(tcp_hdr_t), 1, arquivo_aberto);
         printf("Lendo TCP .. \n");
 
-        printf("--> Porta de Origem: %u\n",ntohs(tcp->sport));
-        printf("--> Porta de Destino: %u\n",ntohs(tcp->dport));
+        printf("    --> Porta de Origem: %u\n",ntohs(tcp->sport));
+        printf("    --> Porta de Destino: %u\n",ntohs(tcp->dport));
 
         int tamando_Cabesalho_tcp = tcp->hdr_len * 4;  
-        printf("--> Tamanho do cabeçalho: %d bytes\n",tamando_Cabesalho_tcp);
+        printf("    --> Tamanho do cabeçalho: %d bytes\n",tamando_Cabesalho_tcp);
 
         int passou_tcp = tamando_Cabesalho_tcp - sizeof(tcp_hdr_t);
         fseek(arquivo_aberto,passou_tcp,SEEK_CUR);
@@ -107,8 +129,8 @@ int main(int argc, char *argv[] ){
 
         printf("Lendo Dados (HTTP) ..\n");
 
-        printf("--> Tamanho dos dados: %d bytes\n",tam_dados);
-
+        printf("    --> Tamanho dos dados: %d bytes\n",tam_dados);
+        printf("    --> Dados:\n");
         int caractere;
         while ((caractere = fgetc(arquivo_aberto)) != EOF) {
             printf("%c", caractere);
